@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        img {
+            max-width: 100%;
+            margin-top: 10px;
+        }
+
+        .dot-bounce div {
+            width: 10px;
+            height: 10px;
+            background-color: #3498db;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .dot-bounce div:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .dot-bounce div:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        #loading {
+            display: none;
+        }
+
+        #download1,
+        #download2 {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+              <img src="/assets/logo.png" class="h-20" alt="Logo" />
+          </a>
+          <button data-collapse-toggle="navbar-solid-bg" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-solid-bg" aria-expanded="false">
+              <span class="sr-only">Open main menu</span>
+              <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+              </svg>
+          </button>
+          <div class="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
+            <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+              <li>
+                <a href="/index.html" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Home</a>
+              </li>
+              <li>
+                <a href="/index.html#anime_grid" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Anime</a>
+              </li>
+              <li>
+                <a href="/index.html#manga_grid" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Manga</a>
+              </li>
+              <li>
+                <a href="/public/collection.html" class="block py-2 px-3 md:p-0 text-gray-900 bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">My Collection</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <!-- Upload Section -->
+    <div class="container mt-5">
+        <div class="card shadow-sm p-4">
+            <h2 class="text-center mb-4">Choose an Image</h2>
+            <div class="upload-container text-center">
+                <div class="custom-file">
+                    <input type="file" name="imageInput" id="imageInput" class="custom-file-input" accept="image/*">
+                    <label class="custom-file-label" for="imageInput">Select Image</label>
+                </div>
+                <div class="flex justify-center items-center mt-3">
+                    <img src="#" id="preview" alt="Preview" class="img-thumbnail">
+                </div>
+                <button id="predict" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 mt-4 rounded">Remove Background</button>
+                <!-- Loading animation -->
+                <div id="loading" class="mt-4 flex justify-center dot-bounce">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Result 1 Card -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title">Result</h2>
+                        <img src="#" id="hasil1" alt="Result" class="card-img-top">
+                        <div class="text-center">
+                            <a id="download1" href="#" download="Result.png" class="btn btn-success mt-3 mx-auto">DOWNLOAD</a>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result 2 Card -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title">Segmentation</h2>
+                        <img src="#" id="hasil2" alt="Segmentation" class="card-img-top">
+                        <div class="text-center">
+                            <a id="download2" href="#" download="Segmentation.png" class="btn btn-success mt-3 mx-auto">DOWNLOAD</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 w-full text-center">
+        <p>&copy; List-Animeku</p>
+    </footer>
+
+    <script type="module">
+        import { Client } from "https://esm.sh/@gradio/client";
+
+        const imageInput = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+        const hasil1 = document.getElementById('hasil1');
+        const hasil2 = document.getElementById('hasil2');
+        const predictButton = document.getElementById('predict');
+        const loadingSpinner = document.getElementById('loading');
+        const download1 = document.getElementById('download1');
+        const download2 = document.getElementById('download2');
+
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        async function predictImage(imageFile) {
+            try {
+                const client = await Client.connect("skytnt/anime-remove-background");
+                const imageBlob = new Blob([imageFile], { type: imageFile.type });
+                loadingSpinner.style.display = 'flex';
+
+                const result = await client.predict("/rmbg_fn", {
+                    img: imageBlob,
+                });
+
+                const url1 = result.data[1].url;
+                const url2 = result.data[0].url;
+
+                hasil1.src = url1;
+                hasil2.src = url2;
+
+                download1.href = url1;
+                download2.href = url2;
+
+                download1.style.display = 'inline-block';
+                download2.style.display = 'inline-block';
+
+            } catch (error) {
+                console.error("Terjadi kesalahan saat melakukan prediksi:", error);
+            } finally {
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        predictButton.addEventListener('click', function () {
+            const file = imageInput.files[0];
+            if (file) {
+                predictImage(file);
+            } else {
+                alert("Pilih gambar terlebih dahulu.");
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body>
+</html>
